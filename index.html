@@ -77,6 +77,56 @@
       }
     }
 
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0 2rem;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .section-divider span {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.85rem;
+      white-space: nowrap;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+    }
+
+    .section-title {
+      color: rgba(255,255,255,0.85);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-teacher {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-teacher:hover {
+      box-shadow: 0 16px 48px rgba(245, 158, 11, 0.6);
+    }
+
+    .btn-student {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      box-shadow: 0 8px 32px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-student:hover {
+      box-shadow: 0 16px 48px rgba(239, 68, 68, 0.6);
+    }
+
     .btn {
       display: flex;
       flex-direction: column;
@@ -166,6 +216,23 @@
       <a href="fix.html" class="btn btn-fix" id="btn-fix">
         <span class="btn-icon">🔧</span>
         <span class="btn-label">نثبّت معًا</span>
+      </a>
+    </div>
+
+    <div class="section-divider">
+      <span>📝 الاختبار القبلي التشخيصي</span>
+    </div>
+
+    <p class="section-title">الوحدة الثانية: الأسرة</p>
+
+    <div class="buttons-grid">
+      <a href="quiz-teacher.html" class="btn btn-teacher" id="btn-teacher">
+        <span class="btn-icon">👩‍🏫</span>
+        <span class="btn-label">لوحة المعلم</span>
+      </a>
+      <a href="quiz-student.html" class="btn btn-student" id="btn-student">
+        <span class="btn-icon">🎓</span>
+        <span class="btn-label">صفحة الطالب</span>
       </a>
     </div>
 
