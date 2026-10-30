@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ريلز ربع بكالوريا | فترات الحملة الأربع</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF1F5;--surface:#FFFFFF;--spoken:#0B2545;--cue:#7D8B98;--cue-tag:#5E6D7B;
+  --accent:#B86A12;--line:#D6DEE6;--ph-bg:#FBE8CC;--ph-fg:#8A4C05;--chip:#E2E8EE;
+  --p1:#6F5FD6;--p2:#2F7FD8;--p3:#1E9466;--p4:#C27417;--ok:#1E8A62;
+  color-scheme:light;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1923;--surface:#14212D;--spoken:#FFF3D1;--cue:#64778A;--cue-tag:#7F93A6;
+  --accent:#F2B544;--line:#22313F;--ph-bg:#3B2F14;--ph-fg:#FFD27A;--chip:#1B2A38;
+  --p1:#9A8CF0;--p2:#5AA6F2;--p3:#3CC08E;--p4:#F0A44A;--ok:#3CC08E;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1923;--surface:#14212D;--spoken:#FFF3D1;--cue:#64778A;--cue-tag:#7F93A6;
+  --accent:#F2B544;--line:#22313F;--ph-bg:#3B2F14;--ph-fg:#FFD27A;--chip:#1B2A38;
+  --p1:#9A8CF0;--p2:#5AA6F2;--p3:#3CC08E;--p4:#F0A44A;--ok:#3CC08E;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 76px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--spoken);font-family:"Alexandria","Segoe UI","Tahoma",sans-serif;line-height:1.9}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:780px;margin:0 auto;padding:0 20px 80px}
+button{font:inherit;color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.hero{padding:52px 0 24px}
+.hero h1{margin:0;font-weight:800;font-size:clamp(2.3rem,8vw,4rem);line-height:1.15}
+.hero h1 .q{color:var(--accent)}
+.hero p{margin:8px 0 0;color:var(--cue-tag)}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.meta span{background:var(--chip);color:var(--cue-tag);border-radius:999px;padding:4px 14px;font-size:.85rem}
+.meta b{color:var(--spoken);font-weight:700}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 0;margin-bottom:6px}
+.bar-inner{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filters{display:flex;gap:6px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.pill{flex:none;cursor:pointer;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 14px;font-size:.82rem;white-space:nowrap}
+.pill[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.saved{flex:none;font-size:.78rem;color:var(--cue-tag);opacity:0;transition:opacity .3s}
+.saved.show{opacity:1}
+
+.day{padding:30px 0 22px;border-bottom:1px solid var(--line)}
+.day[hidden]{display:none}
+.day-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.dnum{font-weight:800;font-size:2.4rem;line-height:1;min-width:1.3em;color:var(--ph)}
+.day.p1 .dnum{color:var(--p1)} .day.p2 .dnum{color:var(--p2)} .day.p3 .dnum{color:var(--p3)} .day.p4 .dnum{color:var(--p4)}
+.phase-head{display:flex;align-items:center;gap:10px;margin:40px 0 0;font-size:1.05rem;font-weight:700}
+.phase-head .dot{width:12px;height:12px;border-radius:50%}
+.phase-head .rng{color:var(--cue-tag);font-weight:400;font-size:.85rem}
+.phase-head[hidden]{display:none}
+.dinfo{display:flex;flex-direction:column;line-height:1.5}
+.dinfo .w{font-weight:700;font-size:1.1rem}
+.dinfo .m{color:var(--cue-tag);font-size:.82rem}
+.cat{background:var(--chip);color:var(--cue-tag);border-radius:999px;padding:3px 12px;font-size:.78rem}
+.status{margin-inline-start:auto;display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.status button{border:0;background:transparent;padding:4px 12px;font-size:.78rem;cursor:pointer;color:var(--cue-tag)}
+.status button[aria-pressed="true"]{background:var(--chip);color:var(--spoken);font-weight:700}
+.status button.posted[aria-pressed="true"]{background:var(--ok);color:#fff}
+.day.is-posted .dnum{opacity:.45}
+
+.tabs{display:flex;gap:8px;margin:18px 0 6px;flex-wrap:wrap}
+.tab{cursor:pointer;border:1px solid var(--line);background:transparent;border-radius:12px;padding:8px 14px;font-size:.9rem;text-align:start;line-height:1.5;color:var(--cue-tag)}
+.tab .lt{font-weight:800;margin-inline-end:6px}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--spoken);border-color:var(--accent)}
+.tab .star{color:var(--accent);margin-inline-start:6px}
+
+.panel{padding-top:8px}
+.panel[hidden]{display:none}
+.ptools{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 14px}
+.mini{cursor:pointer;border:1px solid var(--line);background:transparent;border-radius:999px;padding:3px 12px;font-size:.78rem;color:var(--cue-tag)}
+.mini:hover{color:var(--spoken)}
+.mini.on{border-color:var(--accent);color:var(--accent)}
+.ititle{margin:0 0 12px;font-size:1.25rem;font-weight:700;line-height:1.6}
+
+.spoken{margin:0 0 12px;font-size:1.24rem;font-weight:500;line-height:2;color:var(--spoken)}
+.cue{margin:4px 0 14px;padding:2px 12px 2px 0;border-inline-start:2px solid var(--line);color:var(--cue);font-size:.9rem;font-weight:300;line-height:1.8}
+body.only-spoken .cue{display:none}
+.ph{background:var(--ph-bg);color:var(--ph-fg);border-radius:6px;padding:0 6px;font-weight:500}
+
+.edwrap{position:relative}
+body.editing .ed{border-radius:4px;outline:1px dashed transparent;outline-offset:4px;cursor:text}
+body.editing .ed:hover{outline-color:var(--line)}
+body.editing .ed:focus{outline:1px dashed var(--accent)}
+.rev{display:none;position:absolute;top:2px;inset-inline-end:-30px;width:24px;height:24px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--cue);opacity:.35;font-size:15px;line-height:24px;cursor:pointer}
+.edwrap.modified>.rev{display:block}
+.rev:hover,.rev:focus-visible{opacity:1;background:var(--chip);color:var(--spoken)}
+
+.notes{margin-top:34px;padding:18px 20px;border:1px dashed var(--line);border-radius:14px;color:var(--cue-tag);font-size:.9rem}
+.notes h2{margin:0 0 6px;font-size:1rem;color:var(--spoken)}
+.notes ul{margin:0;padding-inline-start:20px}
+footer{padding:26px 0;color:var(--cue-tag);font-size:.82rem}
+.reset-all{background:none;border:0;color:var(--cue);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;opacity:.6;font-size:.8rem}
+.reset-all:hover{opacity:1}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(20px);background:var(--spoken);color:var(--bg);padding:8px 18px;border-radius:999px;font-size:.85rem;opacity:0;transition:.25s;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (max-width:860px){.edwrap.modified{padding-inline-end:28px}.rev{inset-inline-end:0}}
+@media (max-width:560px){.spoken{font-size:1.12rem}.dnum{font-size:2rem}.status{margin-inline-start:0}}
+@media print{.bar,.ptools,.status,.rev{display:none}body{background:#fff}.panel[hidden]{display:block}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <h1>ريلز ربع بكالوريا<span class="q">.</span></h1>
+  <p class="ed-static">سكريبتات فترات الحملة الأربع، فكرتين لكل يوم</p>
+  <div class="meta" id="meta"></div>
+</header>
+
+<nav class="bar" aria-label="أدوات">
+  <div class="bar-inner">
+    <div class="filters" role="group" aria-label="الفترات">
+      <button class="pill" data-f="all" aria-pressed="true">الكل</button>
+      <button class="pill" data-f="p1" aria-pressed="false">التمهيدية</button>
+      <button class="pill" data-f="p2" aria-pressed="false">الانطلاق</button>
+      <button class="pill" data-f="p3" aria-pressed="false">النتائج الأولية</button>
+      <button class="pill" data-f="p4" aria-pressed="false">سير المنتج</button>
+      <button class="pill" data-f="todo" aria-pressed="false">لسه ما اتنشرش</button>
+    </div>
+    <span class="saved" id="saved" aria-live="polite">اتحفظ</span>
+    <button class="pill" id="edit" aria-pressed="false">تعديل</button>
+    <button class="pill" id="only" aria-pressed="false">الكلام بس</button>
+  </div>
+</nav>
+
+<main id="days"></main>
+
+<section class="notes">
+  <h2>محتاج تأكيد قبل التصوير</h2>
+  <ul>
+    <li>نسب الحضور والتقييمات في ريل السبت 7 نوفمبر (ب).</li>
+    <li>هل المذكرة الشاملة مجانية للتحميل؟ ولو المطبوعة بفلوس، يتوضح ده في ريل الخميس 5 نوفمبر (ب).</li>
+    <li>ريلز النتائج الأولية وسير المنتج محتاجة تتجمع لها المادة من يوم 1 نوفمبر: التعليقات والرسايل، والأرقام، ومواقف الميم، وأعذار المذاكرة، والسكتشات، ونتايج تصويت الستوري.</li>
+    <li>إذن الطلبة قبل نشر أسمائهم أو رسايلهم.</li>
+  </ul>
+</section>
+<footer><button class="reset-all" id="resetAll" type="button">رجّع كل النصوص الأصلية</button></footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+var DATA=[{"id": "d26", "phase": "p1", "day": "الاتنين", "date": "26 أكتوبر", "cat": "عناصر الفيديو الدعائي", "ideas": [{"t": "المنهج الجبل", "l": [["c", "على الشاشة: كتاب الكيمياء الجديد بيتقلب بسرعة."], ["s", "الكتاب ده... هيخلص إمتى؟"], ["s", "سؤال طبيعي جدًا، وكلنا سألناه."], ["s", "بس خليني أقولك الإجابة من دلوقتي: المنهج ده كله، بكل حجمه، هيخلص في أربع فيديوهات بس."], ["s", "أربع جرعات. كل جرعة بتلم ربع المنهج: شرح على قد المطلوب، وبعده حل كتير."], ["s", "التفاصيل كلها يوم الخميس."], ["s", "والكيمياء إن شاء الله سهلة ولذيذة معانا."]]}, {"t": "مفيش حاجة اسمها متأخر", "l": [["s", "حاسس إنك اتأخرت؟"], ["s", "طب بص..."], ["s", "مفيش حاجة اسمها متأخر. فيه حاجة اسمها لسه مبدأتش."], ["s", "ولو إنت لسه ما بدأتش، أو بدأت وتايه، فده أحسن وقت تبدأ فيه صح، من أول السطر."], ["s", "يوم الحد 1 نوفمبر، دفعة كاملة هتبدأ «ربع بكالوريا 1» في نفس اليوم."], ["s", "يعني مش هتبدأ لوحدك."]]}]}, {"id": "d27", "phase": "p1", "day": "التلات", "date": "27 أكتوبر", "cat": "الأفكار الإضافية", "ideas": [{"t": "الكمالية والحشو", "l": [["s", "فيه طالب بيذاكر كل تفريعة في الكتاب..."], ["s", "وكل ملحوظة صغيرة في الجنب..."], ["s", "وبعد أسبوعين... لسه في أول باب."], ["s", "ده مش اجتهاد يا بطل. دي فرهدة على الفاضي."], ["s", "المشكلة عمرها ما كانت إنك تعرف كل حاجة. المشكلة إنك تعرف اللي هيجيلك، وتعرف تحله."], ["s", "وعشان كده الشرح في «ربع بكالوريا» على قد المطلوب بالظبط، والمجهود الأكبر رايح للحل."]]}, {"t": "التشتت بين المصادر", "l": [["c", "المؤثر: صوت إشعارات بيتراكم."], ["s", "فيديو من هنا... ملزمة من هناك... جروب... قناة تانية... فيديو «أهم 5 أسئلة»..."], ["s", "وفي آخر اليوم: لفّيت كتير... وما وصلتش."], ["s", "المشكلة ببساطة مش إنك مش بتذاكر. المشكلة إنك بتذاكر من عشر أماكن."], ["s", "الحل: مصدر واحد. مذكرة شاملة، وأربع فيديوهات، والحل جواهم."], ["s", "وأول فيديو يوم الحد 1 نوفمبر."]]}]}, {"id": "d28", "phase": "p1", "day": "الأربع", "date": "28 أكتوبر", "cat": "أفكار أخرى", "ideas": [{"t": "الأربع خانات", "l": [["c", "على الشاشة: أربع خانات فاضية، وصمت تام."], ["s", "أربع خانات."], ["s", "كل خانة فيها ربع حاجة كبيرة... وتقيلة... وناس كتير قلقانة منها."], ["c", "المؤثر: تكّة خفيفة."], ["s", "بكرة هتعرف الخانات دي فيها إيه."]]}, {"t": "ميم أول دفعة", "l": [["c", "قالب ميم: «أول دفعة بكالوريا وهي داخلة السنة»، مع صورة فار تجارب لابس نضارة معمل."], ["c", "المؤثر: صوت ثابت من مكتبة المؤثرات."], ["s", "أول دفعة بتجرب النظام الجديد..."], ["s", "تمام. مفهوم."], ["s", "بس مش لازم تجرب المذاكرة لوحدك كمان."], ["c", "على الشاشة: «ربع بكالوريا».. الحد 1 نوفمبر."], ["s", "اكتبلنا في التعليقات أكتر موقف بيوجعك في السنة دي... ممكن يبقى الميم الجاي."]]}]}, {"id": "d29", "phase": "p1", "day": "الخميس", "date": "29 أكتوبر", "cat": "عناصر الفيديو الدعائي", "ideas": [{"t": "«لأنك فعلًا شفتها»", "l": [["c", "مقطع من الفيديو الدعائي."], ["s", "الوزارة قالتها بوضوح: الامتحان مش هيخرج عن النماذج الاسترشادية."], ["s", "يبقى إحنا هنحلها، وهنحل كتير جدًا جدًا، لحد ما تدخل اللجنة وتحس إنك شايف الأسئلة دي قبل كده..."], ["s", "لأنك فعلًا شفتها."], ["c", "على الشاشة: الفيديو كامل على القناة."]]}, {"t": "ليه اتأخرنا؟", "l": [["s", "ممكن تسأل: إنتو اتأخرتوا ليه؟"], ["s", "بصراحة: ما كانش ينفع ننزّل المنهج سلوقة."], ["s", "لا في طريقة الشرح، ولا في المذكرة اللي هتذاكر منها."], ["s", "إحنا عندنا، بفضل الله، حد أدنى من الجودة ما ينفعش ننزل عنه."], ["s", "والوقت ده ما راحش على الفاضي: كنا بنجهزلكم المذكرة الشاملة، من غير حشو كتاب المدرسة، وبلغة أسهل، وفيها أسئلة التقييمات والوزارة."], ["s", "التفاصيل كلها في الفيديو اللي نزل النهارده."]]}]}, {"id": "d30", "phase": "p1", "day": "الجمعة", "date": "30 أكتوبر", "cat": "الأفكار الإضافية", "ideas": [{"t": "«30 دقيقة في 3 دقايق» الحلقة 1", "l": [["c", "أول ثانيتين، قالب ميم: «المدرس: المفهوم ده هياخد معانا نص ساعة»، ولقطة لحد بيبص في الساعة بيأس."], ["c", "قطع على عدّاد 3:00 بيبدأ."], ["s", "المفهوم ده، [اسم المفهوم]، في العادة بياخد نص ساعة شرح."], ["s", "إحنا معانا تلات دقايق. يلّا."], ["c", "[الشرح الفعلي للمفهوم]، والعدّاد يقف عند الوقت الفعلي."], ["s", "خلاص كده. ده كان مفهوم واحد."], ["s", "والمنهج كله ماشي بالشكل ده في «ربع بكالوريا». أول جرعة يوم الحد."]]}, {"t": "إعلان التحدي بدري", "l": [["s", "لو هتبدأ «ربع بكالوريا 1» يوم الحد، ابدأه مع دفعة."], ["s", "عاملين تحدي اسمه: «خلّص الفيديو في أسبوع»."], ["s", "تدخل الجروب من النهارده، ويوم الحد نبدأ كلنا مع بعض."], ["s", "كل يوم جزء محدد، وفي آخر الأسبوع اختبار، واللي يتفوق يدخل السحب على [الجايزة]."], ["s", "عشر ساعات على سبع أيام... يعني حوالي ساعة ونص في اليوم. مش أكتر."], ["s", "لينك الجروب في أول تعليق."]]}]}, {"id": "d31", "phase": "p1", "day": "السبت", "date": "31 أكتوبر", "cat": "من المحاضرة", "ideas": [{"t": "«بكرة البداية»", "l": [["c", "لقطة من أقوى جزء في المحاضرة، وتتقطع فجأة عند لحظة مشوّقة."], ["c", "شاشة غامقة، وصوت دقات ساعة."], ["s", "بكرة البداية."], ["c", "على الشاشة: «ربع بكالوريا 1».. الحد 1 نوفمبر، الساعة [الميعاد]."]]}, {"t": "فخ الحصة", "l": [["s", "سؤال من «ربع بكالوريا 1»..."], ["c", "السؤال على الشاشة."], ["s", "شكله سهل؟"], ["s", "هو ده بالظبط اللي بيخليه فخ."], ["s", "اكتب إجابتك في التعليقات، والحل بكرة في الفيديو."], ["s", "وهنشوف بكرة... كام واحد وقع فيه."]]}]}, {"id": "n01", "phase": "p2", "day": "الحد", "date": "1 نوفمبر", "cat": "من المحاضرة", "ideas": [{"t": "نزل", "l": [["s", "«ربع بكالوريا 1» نزل."], ["c", "على الشاشة: الفهرس بالدقيقة بيعدّي بسرعة."], ["s", "ربع المنهج: شرح على قد المطلوب، وبعده حل أسئلة التقييمات."], ["s", "والفيديو متقسم بالدقيقة، فتوصل لأي جزء في ثواني."], ["s", "الشرح وحلول التقييمات مجانًا، والمذكرة الشاملة [مكان تحميلها]."], ["s", "الرابط في أول تعليق. وعلى بركة الله."]]}, {"t": "قفشة الحصة", "l": [["c", "أطرف لحظة كلامية من المحاضرة، من 15 لـ 20 ثانية، زي ما هي من غير أي تعديل."], ["c", "على الشاشة بعدها: «ده كان جزء من 10 ساعات.. «ربع بكالوريا 1» نزل»."]]}]}, {"id": "n02", "phase": "p2", "day": "الاتنين", "date": "2 نوفمبر", "cat": "الأفكار الإضافية", "ideas": [{"t": "«عشر ساعات؟!»", "l": [["s", "«فيديو عشر ساعات؟! ده كتير»."], ["s", "طب خليني أحسبهالك بطريقة تانية."], ["s", "المنهج كله، شرح وحل، في حوالي أربعين ساعة."], ["s", "أربعين ساعة... لمنهج في ناس بتقعد فيه شهور."], ["s", "ولو قسّمت الفيديو على أسبوع، يبقى حوالي ساعة ونص في اليوم."], ["s", "والفيديو متقسم بالدقيقة. تقف، وترجع، وتكمّل على راحتك."]]}, {"t": "وضوح المجاني", "l": [["s", "خليني أكون واضح من الأول، علشان بس محدش يتخض بعدين."], ["s", "الشرح: مجاني. وحلول أسئلة التقييمات: مجانية. ومفيش أي جزء شرح أو حل بفلوس."], ["s", "فيه خدمة واحدة بس باشتراك بسيط: المتابعة والدعم."], ["s", "وإنت مش محتاجها عشان تتفوق. الحل اللي في الفيديوهات كفاية."], ["s", "كل اللي بتعمله إنها بتوفّر وقتك: سؤال كنت هتدوّر على إجابته ربع ساعة، تفهمه مع التيم في دقيقتين."], ["s", "يعني ببساطة: محتاجها؟ موجودة. مش محتاجها؟ مش هتفرق في مستواك."]]}]}, {"id": "n03", "phase": "p2", "day": "التلات", "date": "3 نوفمبر", "cat": "الأفكار الإضافية", "ideas": [{"t": "التحدي بدأ", "l": [["s", "اليوم التالت في تحدي «خلّص الفيديو في أسبوع»."], ["c", "على الشاشة: عدد أعضاء الجروب."], ["s", "[العدد] طالب بدأوا يوم الحد... ولسه تقدر تلحق."], ["s", "النهارده الجزء [رقم الجزء]، من الدقيقة [من] للدقيقة [لـ]."], ["s", "وفي آخر الأسبوع اختبار، واللي يتفوق يدخل السحب على [الجايزة]."], ["s", "لينك الجروب في أول تعليق."]]}, {"t": "الخبرة من تالتة", "l": [["s", "البكالوريا أول سنة. يعني محدش، ولا طالب ولا مدرس، عنده تجربة سابقة فيها."], ["s", "طب الفرق هيبقى في إيه؟ في الخبرة."], ["c", "لقطات من ملخصات تالتة ثانوي ومشاهداتها."], ["s", "سنين مع طلبة تالتة، وملخصات اتشافت [عدد المشاهدات] مرة."], ["s", "الخبرة دي جمعناها، ونضفناها، وجبناها ليكو في تانية."], ["s", "وأول نتيجتها: «ربع بكالوريا 1». الرابط في أول تعليق."]]}]}, {"id": "n04", "phase": "p2", "day": "الأربع", "date": "4 نوفمبر", "cat": "من المحاضرة", "ideas": [{"t": "سؤال استرشادي", "l": [["s", "السؤال ده من النماذج الاسترشادية."], ["c", "السؤال على الشاشة."], ["s", "خد خمس ثواني وحاول."], ["c", "عدّاد 5 ثواني، وبعده الحل من المحاضرة مختصر."], ["s", "النوع ده بالظبط هو اللي هيجيلك."], ["s", "وفي «ربع بكالوريا 1»، الأسئلة دي محلولة كتير جدًا جدًا. الرابط في أول تعليق."]]}, {"t": "حل الفخ", "l": [["s", "فاكرين سؤال الفخ بتاع يوم السبت؟"], ["c", "السؤال على الشاشة، وبعده نسبة اللي اختاروا الإجابة الغلط من التعليقات."], ["s", "أغلبكم قال [الإجابة الغلط]."], ["s", "وده منطقي جدًا... ومش صح."], ["c", "الحل من المحاضرة."], ["s", "ومبروك لـ [اسم أول واحد جاوب صح]... لقب «صائد الفخاخ» بتاعك الأسبوع ده."]]}]}, {"id": "n05", "phase": "p2", "day": "الخميس", "date": "5 نوفمبر", "cat": "عناصر الفيديو الدعائي", "ideas": [{"t": "المذكرة الشاملة", "l": [["c", "تقليب في صفحات المذكرة."], ["s", "دي المذكرة الشاملة."], ["s", "شلنا منها الحشو اللي في كتاب المدرسة..."], ["s", "وكتبناها بلغة أسهل وأوضح من الكتاب..."], ["s", "وجواها أسئلة التقييمات وأسئلة الوزارة."], ["s", "وماشية مع «ربع بكالوريا» خطوة بخطوة."], ["s", "[مكان التحميل]، والرابط في أول تعليق."]]}, {"t": "الببلاش إيه بالظبط؟", "l": [["s", "«ببلاش»... كلمة بتتقال كتير. فخليني أقولك الببلاش هنا إيه بالظبط."], ["s", "الشرح: مجاني."], ["s", "حلول أسئلة التقييمات: مجانية."], ["s", "المذكرة الشاملة: [مجانية للتحميل]."], ["s", "الحاجة الوحيدة اللي باشتراك: المتابعة والدعم. وهي اختيارية، ومش شرط للتفوق."], ["s", "كده الصورة كاملة... من غير مفاجآت."]]}]}, {"id": "n06", "phase": "p2", "day": "الجمعة", "date": "6 نوفمبر", "cat": "الأفكار الإضافية", "ideas": [{"t": "«30 دقيقة في 3 دقايق» الحلقة 2", "l": [["c", "أول ثانيتين، قالب ميم: «لما المدرس يقول: المفهوم ده سهل»، ولقطة لحد مذهول."], ["c", "قطع على عدّاد 3:00."], ["s", "[اسم المفهوم]... من «ربع بكالوريا 1»."], ["s", "في العادة نص ساعة. إحنا معانا تلات دقايق. يلّا."], ["c", "[الشرح الفعلي من المحاضرة]"], ["s", "خلاص كده."], ["s", "ده جزء صغير من «ربع بكالوريا 1»... والباقي مستنيك."]]}, {"t": "المفهوم اللي اخترتوه", "l": [["c", "أول ثانيتين: لقطة لستوري التصويت ونتيجته."], ["s", "إنتو اخترتوا."], ["s", "[اسم المفهوم] كسب بـ [النسبة]."], ["s", "والاتفاق كان: نص ساعة شرح... في تلات دقايق. يلّا."], ["c", "[الشرح الفعلي]"], ["s", "خلاص كده."], ["s", "الأسبوع الجاي إنتو اللي هتختاروا تاني. التصويت في الستوري."]]}]}, {"id": "n07", "phase": "p2", "day": "السبت", "date": "7 نوفمبر", "cat": "عناصر الفيديو الدعائي", "ideas": [{"t": "الورقة الجامعة", "l": [["s", "تخيّل قبل الامتحان بخمس دقايق..."], ["s", "تبص في ورقة واحدة... تلاقي الربع كله قدامك."], ["c", "الورقة على الشاشة، مع تقريب بطيء."], ["s", "دي الورقة الجامعة لـ «ربع بكالوريا 1». كل مواضيعه في نظرة واحدة."], ["s", "مش بديل للمذاكرة... لكنها آخر حاجة تبص فيها قبل ما تدخل."]]}, {"t": "قلقان من الحضور والتقييمات؟", "l": [["s", "قلقان من الحضور والتقييمات؟ طبيعي."], ["s", "الحضور [85٪] والتقييمات [60٪]... والكيمياء علينا."], ["s", "الشرح وحلول التقييمات معانا من غير ولا جنيه، والمذكرة الشاملة معاك من أول يوم."], ["s", "أول دفعة بتجرب النظام الجديد... بس مش لازم تجرب المذاكرة لوحدك."], ["s", "«ربع بكالوريا 1» نزل، والرابط في أول تعليق."], ["s", "والكيمياء إن شاء الله سهلة ولذيذة معانا."]]}]}, {"id": "n08", "phase": "p3", "day": "الحد", "date": "8 نوفمبر", "cat": "من التفاعل الإيجابي", "ideas": [{"t": "أرقام الأسبوع الأول", "l": [["s", "أسبوع واحد بس..."], ["c", "على الشاشة: الأرقام بتطلع واحد ورا التاني بعدّاد."], ["s", "[عدد المشاهدات] مشاهدة لـ «ربع بكالوريا 1»."], ["s", "[عدد التحميلات] تحميل للمذكرة الشاملة."], ["s", "و[عدد المشاركين] طالب في تحدي «خلّص الفيديو في أسبوع»."], ["s", "يعني حوالي [عدد الساعات] ساعة كيمياء اتذاكرت في سبع أيام."], ["s", "الحمد لله... ونفّرحكم زي ما فرّحتونا."], ["s", "ولو لسه ما بدأتش، الفيديو مستنيك. الرابط في أول تعليق."]]}, {"t": "اقترحوا الموقف", "l": [["s", "عندي طلب صغير."], ["s", "اكتبلي في التعليقات أكتر موقف بيحصلك في السنة دي ونفسك حد يفهمه."], ["s", "الموقف اللي يكسب... هيتعمل ميم، وباسم صاحبه."], ["c", "على الشاشة: أمثلة سريعة بخط صغير: «لما تفتح الكتاب وتلاقي الدرس 40 صفحة»، «لما حد يسألك: إنت بكالوريا ولا عام؟»."], ["s", "يلّا... وريني بقى."]]}]}, {"id": "n09", "phase": "p3", "day": "الاتنين", "date": "9 نوفمبر", "cat": "من التفاعل الإيجابي", "ideas": [{"t": "الطلبة قالوا إيه", "l": [["c", "على الشاشة: لقطات من تعليقات ورسايل الطلبة بعد «ربع 1»، واحدة ورا التانية."], ["s", "أنا عادةً مش بحب أتكلم عن نفسي..."], ["s", "فخليهم هم اللي يتكلموا."], ["c", "[أحسن 4 أو 5 تعليقات أو رسايل صوتية]"], ["s", "شكرًا ليكم بجد. وده لسه الربع الأول."]]}, {"t": "أعذار المذاكرة", "l": [["s", "طلبنا منكم أطرف أعذار عدم المذاكرة... وما خيبتوش ظننا."], ["c", "على الشاشة: العذر الأول مكتوب."], ["s", "«[العذر الأول]»."], ["s", "الحكم: مرفوض. والمذكرة جنبك."], ["c", "على الشاشة: العذر التاني."], ["s", "«[العذر التاني]»."], ["s", "الحكم: مقبول... لمدة عشر دقايق بس."], ["c", "على الشاشة: العذر التالت."], ["s", "«[العذر التالت]»."], ["s", "الحكم: ده مش عذر، ده سيناريو فيلم."], ["s", "المحكمة بترفع الجلسة... وإنت ترجع تذاكر."]]}]}, {"id": "n10", "phase": "p3", "day": "التلات", "date": "10 نوفمبر", "cat": "من التفاعل الإيجابي", "ideas": [{"t": "نتيجة التحدي", "l": [["s", "تحدي «خلّص الفيديو في أسبوع»... خلص."], ["s", "[عدد اللي خلّصوا] طالب خلّصوا الفيديو كله، و[عدد اللي دخلوا الاختبار] دخلوا الاختبار."], ["c", "على الشاشة: أسماء المتفوقين."], ["s", "ودلوقتي... السحب."], ["c", "لقطة حقيقية للسحب قدام الكاميرا."], ["s", "مبروك لـ [اسم الفايز]... [الجايزة] بتاعتك."], ["s", "واللي فاته التحدي، الدفعة التانية جاية. خليك جاهز."]]}, {"t": "ألقاب الأسبوع", "l": [["s", "ألقاب الأسبوع الأول... رسميًا."], ["c", "على الشاشة: كل لقب بشارة شكلها مميز."], ["s", "«صائد الفخاخ»: [الاسم]. أول واحد جاوب سؤال الفخ صح."], ["s", "«المستمر 7 أيام»: [الاسم]. ما فوّتش ولا يوم."], ["s", "«أسرع واحد خلّص»: [الاسم]. خلّص الفيديو في [المدة]."], ["s", "الألقاب دي بتتجدد كل أسبوع... فالأسبوع الجاي ممكن يبقى اسمك إنت."]]}]}, {"id": "n11", "phase": "p3", "day": "الأربع", "date": "11 نوفمبر", "cat": "من التفاعل الإيجابي", "ideas": [{"t": "«اللي خلّص يكتب تم ✅»", "l": [["c", "على الشاشة: شاشة فاضية بتتملا تدريجيًا بتعليقات «تم ✅» من الطلبة، لحد ما تتغطى كلها."], ["c", "المؤثر: صوت إشعار خفيف مع كل تعليق، وبيسرع تدريجيًا."], ["s", "دي مش صورة معدّلة."], ["s", "دي تعليقاتكم إنتو... على «ربع بكالوريا 1»."], ["s", "ربع المنهج خلص. فاضل تلاتة."], ["s", "واللي لسه ما خلّصش... اكتب «هخلّص» تحت. وإحنا مستنيينك."]]}, {"t": "الميم اللي اقترحتوه", "l": [["c", "قالب ميم بالموقف اللي كسب من اقتراحات يوم 8."], ["c", "على الشاشة: «فكرة: [اسم صاحب الفكرة]»."], ["c", "المؤثر: نفس الصوت الثابت من مكتبة المؤثرات."], ["s", "الموقف ده اتكتب أكتر من [العدد] مرة في التعليقات."], ["s", "يعني ببساطة... إنت مش لوحدك."], ["s", "ابعتلنا الموقف الجاي."]]}]}, {"id": "n12", "phase": "p4", "day": "الخميس", "date": "12 نوفمبر", "cat": "عناصر الفيديو الدعائي", "ideas": [{"t": "ليه مجاني؟", "l": [["s", "ناس كتير سألتنا: «هو ليه مجاني؟»"], ["s", "إحنا بقالنا سبع سنين على القناة دي، ومبدأنا ثابت ومعروف: الشرح، بجودة عالية، مجاني للجميع، كل سنة."], ["s", "والحل في العادة بيبقى باشتراك بسيط جدًا، لأنه بياخد مجهود كبير ومصاريف كتير."], ["s", "لكن السنة دي مختلفة. أول سنة بكالوريا، والقلق كبير عند الطلبة وعند البيوت."], ["s", "فقررنا إن الشرح وحلول أسئلة التقييمات، الاتنين مجانيين بالكامل."], ["s", "والمتابعة والدعم خدمة اختيارية لمن يحب. مش شرط للتفوق."]]}, {"t": "لسه مبدأتش؟", "l": [["s", "لو إنت لسه شايف الفيديو ده النهارده... وحاسس إن الدفعة سبقتك..."], ["s", "طب بص."], ["s", "«ربع بكالوريا 1» موجود على القناة، بنفس الشرح، ونفس الحل، ونفس المذكرة."], ["s", "ساعة ونص في اليوم، وفي أسبوع تبقى خلّصت الربع الأول زيك زي اللي بدأ من أول يوم."], ["s", "مفيش حاجة اسمها متأخر... فيه حاجة اسمها لسه مبدأتش."], ["s", "ابدأ النهارده. الرابط في أول تعليق."]]}]}, {"id": "n13", "phase": "p4", "day": "الجمعة", "date": "13 نوفمبر", "cat": "الأفكار الإضافية", "ideas": [{"t": "«30 دقيقة في 3 دقايق» الحلقة 3", "l": [["c", "أول ثانيتين، قالب ميم: «لما تسمع إن الدرس الجاي فيه حسابات»، ولقطة لحد بيقفل اللابتوب ببطء."], ["c", "قطع على عدّاد 3:00."], ["s", "[اسم المفهوم]... في العادة نص ساعة."], ["s", "إحنا معانا تلات دقايق. يلّا."], ["c", "[الشرح الفعلي للمفهوم]"], ["s", "خلاص كده."], ["s", "الحلقة الجاية الجمعة اللي جاية... نفس الميعاد."]]}, {"t": "المفهوم اللي اخترتوه (الجولة 2)", "l": [["c", "أول ثانيتين: لقطة لستوري التصويت ونتيجته."], ["s", "الجولة التانية... وإنتو اخترتوا تاني."], ["s", "[اسم المفهوم] كسب بـ [النسبة]."], ["s", "نص ساعة شرح... في تلات دقايق. يلّا."], ["c", "[الشرح الفعلي]"], ["s", "خلاص كده."], ["s", "التصويت الجاي في الستوري... اختاروا حاجة أصعب."]]}]}, {"id": "n14", "phase": "p4", "day": "السبت", "date": "14 نوفمبر", "cat": "الأفكار الإضافية", "ideas": [{"t": "مش فرهدة.. نظام", "l": [["s", "المذاكرة مش محتاجة فرهدة... قد ما هي محتاجة نظام."], ["s", "خليني أحسبهالك."], ["c", "على الشاشة: جدول أسبوع بسيط بيتملا وإنت بتتكلم."], ["s", "ساعة ونص من الفيديو كل يوم."], ["s", "ربع ساعة مراجعة من المذكرة على اللي شفته."], ["s", "وربع ساعة حل أسئلة لوحدك."], ["s", "يعني ساعتين في اليوم... وفي آخر الأسبوع ربع المنهج خلص، شرح وحل ومراجعة."], ["s", "ده كل اللي محتاجه. نظام بسيط، واستمرار كل يوم."]]}, {"t": "التحدي الدفعة التانية", "l": [["s", "فاتك التحدي الأولاني؟"], ["s", "الدفعة التانية من «خلّص الفيديو في أسبوع» هتبدأ يوم [الميعاد]."], ["s", "نفس الفكرة: تدخل الجروب، كل يوم جزء محدد، وفي آخر الأسبوع اختبار."], ["s", "واللي يتفوق يدخل السحب على [الجايزة]."], ["s", "الدفعة الأولى خلّص منها [العدد] طالب... وإنت ممكن تبقى منهم المرة دي."], ["s", "لينك الجروب في أول تعليق."]]}]}, {"id": "n15", "phase": "p4", "day": "الحد", "date": "15 نوفمبر", "cat": "الأفكار الإضافية", "ideas": [{"t": "الدعم والمتابعة", "l": [["c", "على الشاشة: لقطة شاشة لسؤال طالب حقيقي لفريق المتابعة، من غير اسمه."], ["s", "السؤال ده وصل لفريق المتابعة الساعة [الوقت]."], ["s", "والرد وصل بعدها بـ [المدة]."], ["c", "على الشاشة: الرد."], ["s", "سؤال ممكن كان ياخد منه ربع ساعة يدوّر على إجابته... خلص في دقيقتين."], ["s", "ده كل اللي المتابعة بتعمله: بتوفّر وقتك."], ["s", "وهي اختيارية. والشرح وحلول التقييمات مجانيين ليك، معاها أو من غيرها."]]}, {"t": "محتاجها ولا لا؟", "l": [["s", "سؤال بيتسأل كتير: «أنا محتاج المتابعة؟»"], ["s", "خليني أجاوبك بصراحة."], ["s", "لو إنت بتذاكر بانتظام، وبتعرف تدوّر على إجابة سؤالك... يبقى غالبًا مش محتاجها. والفيديوهات كفاية."], ["s", "لو بتحب حد يتابع معاك خطوة بخطوة، أو وقتك ضيق ومش عايز تضيّعه في البحث... هنا المتابعة بتفرق."], ["s", "في الحالتين، الشرح وحلول التقييمات مجانيين."], ["s", "إنت اللي تقرر، ومن غير أي ضغط."]]}]}, {"id": "n16", "phase": "p4", "day": "الاتنين", "date": "16 نوفمبر", "cat": "من التفاعل الإيجابي", "ideas": [{"t": "سؤال اتسأل كتير", "l": [["s", "السؤال ده جالنا أكتر من [العدد] مرة في التعليقات."], ["c", "على الشاشة: السؤال، مع لقطات من التعليقات اللي سألته."], ["s", "«[السؤال]»"], ["s", "والإجابة ببساطة..."], ["c", "[الإجابة]"], ["s", "ولو عندك سؤال تاني، اكتبه تحت. ممكن يبقى الريل الجاي."]]}, {"t": "تعليقاتكم بصوتي", "l": [["c", "قعدة هادية، وقراية التعليقات بنبرة جادة جدًا، زي نشرة الأخبار."], ["s", "تعليقات الأسبوع... بنفس الجدية اللي اتكتبت بيها."], ["s", "«[التعليق الأول]»."], ["s", "شكرًا على الملاحظة. اتسجلت."], ["s", "«[التعليق التاني]»."], ["s", "... ده محتاج تفكير."], ["s", "«[التعليق التالت]»."], ["s", "وده هيتعلّق في المكتب."], ["s", "استمروا... بس بعد المذاكرة."]]}]}, {"id": "n17", "phase": "p4", "day": "التلات", "date": "17 نوفمبر", "cat": "الأفكار الإضافية", "ideas": [{"t": "من تالتة لتانية", "l": [["s", "السؤال ده جه في امتحان تالتة ثانوي سنة [السنة]."], ["c", "على الشاشة: السؤال القديم."], ["s", "ودلوقتي بص على السؤال ده من نماذج البكالوريا."], ["c", "على الشاشة: السؤال الجديد جنبه."], ["s", "نفس الفكرة... بشكل تاني."], ["s", "وده بالظبط اللي سنين الخبرة مع تالتة بتعمله: بتعرف الفكرة قبل ما تتسأل."], ["s", "وكلها محلولة في «ربع بكالوريا»."]]}, {"t": "ساعة ونص في اليوم", "l": [["c", "لقطات سريعة ليوم مذاكرة: الموبايل على الفيديو، والمذكرة مفتوحة، وورقة حل."], ["s", "إزاي يبان يوم مذاكرة بـ «ربع بكالوريا»؟"], ["s", "الجزء [رقم الجزء] من الفيديو... ساعة ونص."], ["s", "صفحات [من] لـ [لـ] في المذكرة... ربع ساعة."], ["s", "وخمس أسئلة لوحدك من غير ما تبص على الحل."], ["s", "خلاص كده. يومك خلص... والكيمياء ما أخدتش منك اليوم كله."]]}]}, {"id": "n18", "phase": "p4", "day": "الأربع", "date": "18 نوفمبر", "cat": "من المحاضرة", "ideas": [{"t": "غلطة شائعة", "l": [["s", "النقطة دي... أغلب الطلبة بيغلطوا فيها."], ["c", "على الشاشة: الغلطة مكتوبة، وعليها علامة ✗."], ["s", "بيفتكروا إن [الغلطة الشائعة]."], ["s", "والصح..."], ["c", "[المقطع من المحاضرة اللي فيه التنبيه]"], ["s", "خد بالك منها، لأنها من النوع اللي بيجي في الامتحان ويسيب الناس مستغربة."], ["s", "والتنبيه ده بالتفصيل في «ربع بكالوريا 1»."]]}, {"t": "قفشة تانية من «ربع 1»", "l": [["c", "لحظة كلامية تانية من المحاضرة، من 15 لـ 20 ثانية، زي ما هي من غير أي تعديل."], ["c", "على الشاشة بعدها: «قفشات الحصة.. الحلقة 2»."], ["c", "على الشاشة: «والشرح كامل في «ربع بكالوريا 1»»."]]}]}, {"id": "n19", "phase": "p4", "day": "الخميس", "date": "19 نوفمبر", "cat": "من التفاعل الإيجابي", "ideas": [{"t": "قبل وبعد", "l": [["c", "على الشاشة: رسالة الطالب الأولى، من غير اسمه أو بإذنه."], ["s", "من أسبوعين، [الطالب] بعتلنا الرسالة دي:"], ["s", "«[رسالته الأولى]»."], ["c", "على الشاشة: رسالته الجديدة."], ["s", "والنهارده بعت دي:"], ["s", "«[رسالته الجديدة]»."], ["s", "أسبوعين بس... والفرق كله كان: بداية صح، واستمرار كل يوم."], ["s", "ربنا يوفقك يا بطل. وعقبال الربع التاني."]]}, {"t": "سكتش الطلاب", "l": [["c", "سكتش قصير بعته الطلبة عن السنة أو المذاكرة، زي ما هو."], ["c", "على الشاشة في الآخر: «سكتش: [أسماء أصحابه]»."], ["s", "ده من تمثيلكم إنتو... وإحنا بس نشرناه."], ["s", "ابعتولنا السكتش الجاي، وأحسن واحد يتنشر هنا."]]}]}, {"id": "n20", "phase": "p4", "day": "الجمعة", "date": "20 نوفمبر", "cat": "الأفكار الإضافية", "ideas": [{"t": "«30 دقيقة في 3 دقايق» الحلقة 4", "l": [["c", "أول ثانيتين، قالب ميم: «لما المفهوم يبقى سهل بعد ما كنت فاكره مستحيل»، ولقطة لحد مصدوم."], ["c", "قطع على عدّاد 3:00."], ["s", "الحلقة الرابعة... ونفس الاتفاق."], ["s", "[اسم المفهوم]... نص ساعة في العادة. إحنا معانا تلات دقايق. يلّا."], ["c", "[الشرح الفعلي للمفهوم]"], ["s", "خلاص كده."], ["s", "أربع حلقات، وأربع مفاهيم كانت صعبة... بقت في جيبك."]]}, {"t": "المفهوم اللي اخترتوه (الجولة 3)", "l": [["c", "أول ثانيتين: لقطة لستوري التصويت ونتيجته."], ["s", "الجولة التالتة... وطلبتوا حاجة أصعب."], ["s", "[اسم المفهوم] كسب بـ [النسبة]. ماشي."], ["s", "نص ساعة... في تلات دقايق. يلّا."], ["c", "[الشرح الفعلي]"], ["s", "خلاص كده. أصعب؟ ولا كده كفاية؟"]]}]}, {"id": "n21", "phase": "p4", "day": "السبت", "date": "21 نوفمبر", "cat": "من المحاضرة", "ideas": [{"t": "تشويقة «ربع بكالوريا 2»", "l": [["s", "الربع الأول خلص..."], ["c", "لقطة من «ربع بكالوريا 2»، وتتقطع فجأة عند لحظة مشوّقة."], ["c", "شاشة غامقة، وصوت دقات ساعة."], ["s", "والتاني جاي."], ["c", "على الشاشة: «ربع بكالوريا 2».. يوم [الميعاد]."]]}, {"t": "أهم 10 أسئلة في «ربع 1»", "l": [["s", "لو هتراجع «ربع بكالوريا 1» في دقيقة... راجع الأسئلة دي."], ["c", "على الشاشة: الأسئلة العشرة بتعدّي بسرعة، كل سؤال تانية أو اتنين."], ["s", "عشر أسئلة... كل واحد فيهم بيمثّل فكرة ممكن تيجي في الامتحان."], ["s", "لو عرفت تحلهم كلهم، يبقى الربع الأول في جيبك."], ["s", "ولو وقفت عند سؤال، ارجع للدقيقة اللي مكتوبة جنبه في الفيديو."], ["s", "احفظ الريل ده... هتحتاجه قبل الامتحان."]]}]}];
+(function(){
+  var SKEY='rob3-reels-state', OKEY='rob3-reels-only';
+  var state={edits:{},chosen:{},status:{},tab:{}};
+  var els={}, orig={}, changed={}, dbRef=null, dbTimer=null, saveTimers={};
+  var LET=['أ','ب'];
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+  function fmt(s){return esc(s).replace(/\[([^\]]+)\]/g,'<span class="ph">$1</span>')}
+
+  var PH={p1:{n:'الفترة التمهيدية',r:'26 إلى 31 أكتوبر'},p2:{n:'فترة الانطلاق',r:'1 إلى 7 نوفمبر'},p3:{n:'النتائج الأولية الإيجابية',r:'8 إلى 11 نوفمبر'},p4:{n:'سير المنتج ونجاحه',r:'12 إلى 21 نوفمبر'}};
+  var main=document.getElementById('days'); var lastPh=null;
+  DATA.forEach(function(d){
+    if(d.phase!==lastPh){lastPh=d.phase;var h=document.createElement('h2');h.className='phase-head';h.dataset.ph=d.phase;h.innerHTML='<span class="dot" style="background:var(--'+d.phase+')"></span>'+PH[d.phase].n+' <span class="rng">'+PH[d.phase].r+'</span>';main.appendChild(h);}
+    var sec=document.createElement('section'); sec.className='day '+d.phase; sec.id=d.id; sec.dataset.phase=d.phase;
+    var num=d.date.split(' ')[0];
+    sec.innerHTML='<div class="day-head"><span class="dnum">'+num+'</span><div class="dinfo"><span class="w">'+d.day+'</span><span class="m">'+d.date+'، '+PH[d.phase].n+'</span></div><span class="cat">'+d.cat+'</span>'+
+      '<div class="status" role="group" aria-label="الحالة"><button data-s="none">لسه</button><button data-s="shot">اتصور</button><button class="posted" data-s="posted">اتنشر</button></div></div>'+
+      '<div class="tabs" role="tablist"></div>';
+    var tabs=sec.querySelector('.tabs');
+    d.ideas.forEach(function(idea,i){
+      var t=document.createElement('button'); t.className='tab'; t.setAttribute('role','tab'); t.dataset.i=i;
+      t.innerHTML='<span class="lt">'+LET[i]+'</span><span class="tt">'+esc(idea.t)+'</span><span class="star" hidden>★</span>';
+      tabs.appendChild(t);
+      var p=document.createElement('div'); p.className='panel'; p.setAttribute('role','tabpanel'); p.dataset.i=i;
+      var tools='<div class="ptools"><button class="mini choose" type="button">اعتمد الفكرة دي</button><button class="mini copy" type="button">انسخ الكلام المنطوق</button></div>';
+      var html=tools+'<h3 class="ititle ed" data-k="'+d.id+'-'+i+'-t">'+fmt(idea.t)+'</h3>';
+      idea.l.forEach(function(l,j){
+        html+='<p class="'+(l[0]==='s'?'spoken':'cue')+' ed" data-k="'+d.id+'-'+i+'-'+j+'">'+fmt(l[1])+'</p>';
+      });
+      p.innerHTML=html; sec.appendChild(p);
+    });
+    main.appendChild(sec);
+  });
+
+  document.querySelectorAll('.ed').forEach(function(el){
+    var k=el.dataset.k; els[k]=el; orig[k]=el.innerHTML;
+    var w=document.createElement('div'); w.className='edwrap'; el.parentNode.insertBefore(w,el); w.appendChild(el);
+    var r=document.createElement('button'); r.type='button'; r.className='rev'; r.textContent='↺';
+    r.title='رجوع للنص الأصلي'; r.setAttribute('aria-label','رجوع للنص الأصلي للفقرة دي');
+    r.addEventListener('click',function(){ el.innerHTML=orig[k]; delete state.edits[k]; changed['e:'+k]=1; mark(k); syncTitle(k); persist(); });
+    w.appendChild(r);
+  });
+
+  function sanitize(html){
+    var t=document.createElement('template'); t.innerHTML=html;
+    (function walk(node){
+      Array.prototype.slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===1){
+          var tag=n.tagName;
+          if(tag==='BR'){while(n.attributes.length)n.removeAttribute(n.attributes[0].name);return}
+          if(tag==='SPAN'||tag==='B'){var ph=(n.getAttribute('class')||'').split(/\s+/).indexOf('ph')>-1;while(n.attributes.length)n.removeAttribute(n.attributes[0].name);if(ph)n.setAttribute('class','ph');walk(n);return}
+          if(tag==='DIV'||tag==='P'){walk(n);node.insertBefore(document.createElement('br'),n);while(n.firstChild)node.insertBefore(n.firstChild,n);node.removeChild(n);return}
+          walk(n);while(n.firstChild)node.insertBefore(n.firstChild,n);node.removeChild(n);
+        }else if(n.nodeType!==3){node.removeChild(n)}
+      });
+    })(t.content);
+    var d=document.createElement('div');d.appendChild(t.content);return d.innerHTML.replace(/^(<br>)+/,'');
+  }
+
+  function mark(k){els[k].parentNode.classList.toggle('modified',state.edits.hasOwnProperty(k))}
+  function syncTitle(k){
+    var m=k.match(/^(.+)-(\d)-t$/); if(!m) return;
+    var tab=document.querySelector('#'+m[1]+' .tab[data-i="'+m[2]+'"] .tt');
+    if(tab) tab.textContent=els[k].textContent;
+  }
+  function renderDay(d){
+    var sec=document.getElementById(d.id);
+    var cur=state.tab[d.id]!=null?state.tab[d.id]:(state.chosen[d.id]!=null?state.chosen[d.id]:0);
+    sec.querySelectorAll('.tab').forEach(function(t){
+      var i=+t.dataset.i; t.setAttribute('aria-selected',i===cur?'true':'false'); t.tabIndex=i===cur?0:-1;
+      t.querySelector('.star').hidden=state.chosen[d.id]!==i;
+    });
+    sec.querySelectorAll('.panel').forEach(function(p){
+      var i=+p.dataset.i; p.hidden=i!==cur;
+      var c=p.querySelector('.choose'); var on=state.chosen[d.id]===i;
+      c.classList.toggle('on',on); c.textContent=on?'★ الفكرة المعتمدة':'اعتمد الفكرة دي';
+    });
+    var s=state.status[d.id]||'none';
+    sec.querySelectorAll('.status button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.s===s?'true':'false')});
+    sec.classList.toggle('is-posted',s==='posted');
+  }
+  function renderMeta(){
+    var n=DATA.length, posted=0, shot=0, chosen=0;
+    DATA.forEach(function(d){var s=state.status[d.id]; if(s==='posted')posted++; if(s==='shot'||s==='posted')shot++; if(state.chosen[d.id]!=null)chosen++;});
+    document.getElementById('meta').innerHTML='<span><b>'+n+'</b> يوم</span><span>اتعتمد <b>'+chosen+'</b></span><span>اتصور <b>'+shot+'</b></span><span>اتنشر <b>'+posted+'</b></span>';
+  }
+  function renderAll(){DATA.forEach(renderDay);renderMeta();applyFilter()}
+
+  var filter='all';
+  function applyFilter(){
+    DATA.forEach(function(d){
+      var sec=document.getElementById(d.id), show=true;
+      if(/^p\d$/.test(filter)) show=d.phase===filter;
+      if(filter==='todo') show=state.status[d.id]!=='posted';
+      sec.hidden=!show;
+    });
+    document.querySelectorAll('.phase-head').forEach(function(h){
+      h.hidden=!Array.prototype.some.call(document.querySelectorAll('.day[data-phase="'+h.dataset.ph+'"]'),function(s){return !s.hidden});
+    });
+  }
+  document.querySelectorAll('.filters .pill').forEach(function(b){
+    b.addEventListener('click',function(){
+      filter=b.dataset.f;
+      document.querySelectorAll('.filters .pill').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+      applyFilter();
+    });
+  });
+
+  var savedEl=document.getElementById('saved'),savedT=null;
+  function flash(){savedEl.classList.add('show');clearTimeout(savedT);savedT=setTimeout(function(){savedEl.classList.remove('show')},1400)}
+  function persist(){
+    try{localStorage.setItem(SKEY,JSON.stringify(state))}catch(e){}
+    if(dbRef){clearTimeout(dbTimer);dbTimer=setTimeout(function(){dbRef.set({edits:state.edits,chosen:state.chosen,status:state.status,updatedAt:Date.now()}).catch(function(){})},700)}
+    flash();
+  }
+  function applyEdits(){
+    Object.keys(state.edits).forEach(function(k){ if(!els[k]){delete state.edits[k];return} els[k].innerHTML=sanitize(String(state.edits[k])); mark(k); syncTitle(k); });
+  }
+  try{var st=JSON.parse(localStorage.getItem(SKEY)||'null'); if(st){state.edits=st.edits||{};state.chosen=st.chosen||{};state.status=st.status||{};state.tab=st.tab||{};}}catch(e){}
+  applyEdits(); renderAll();
+
+  main.addEventListener('click',function(e){
+    var sec=e.target.closest('.day'); if(!sec) return; var id=sec.id; var d=DATA.filter(function(x){return x.id===id})[0];
+    var tab=e.target.closest('.tab');
+    if(tab){state.tab[id]=+tab.dataset.i;renderDay(d);try{localStorage.setItem(SKEY,JSON.stringify(state))}catch(_){};return}
+    var sb=e.target.closest('.status button');
+    if(sb){state.status[id]=sb.dataset.s;changed['s:'+id]=1;renderDay(d);renderMeta();applyFilter();persist();return}
+    var ch=e.target.closest('.choose');
+    if(ch){var i=+ch.closest('.panel').dataset.i; if(state.chosen[id]===i) delete state.chosen[id]; else state.chosen[id]=i; changed['c:'+id]=1; renderDay(d);renderMeta();persist();return}
+    var cp=e.target.closest('.copy');
+    if(cp){
+      var txt=Array.prototype.map.call(cp.closest('.panel').querySelectorAll('.spoken'),function(p){return p.innerText.trim()}).join('\n');
+      var done=function(){toast('اتنسخ الكلام المنطوق')};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){fallbackCopy(txt);done()})}else{fallbackCopy(txt);done()}
+    }
+  });
+  main.addEventListener('keydown',function(e){
+    var tab=e.target.closest&&e.target.closest('.tab'); if(!tab) return;
+    if(e.key==='ArrowLeft'||e.key==='ArrowRight'){var sib=tab.parentNode.querySelectorAll('.tab');var o=tab===sib[0]?sib[1]:sib[0];o.focus();o.click();e.preventDefault()}
+  });
+  function fallbackCopy(t){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(a)}
+  var toastEl=document.getElementById('toast'),toastT=null;
+  function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove('show')},1600)}
+
+  function saveKey(k){var v=sanitize(els[k].innerHTML); if(v===orig[k]) delete state.edits[k]; else state.edits[k]=v; changed['e:'+k]=1; mark(k); syncTitle(k); persist();}
+  Object.keys(els).forEach(function(k){
+    var el=els[k];
+    el.addEventListener('input',function(){clearTimeout(saveTimers[k]);saveTimers[k]=setTimeout(function(){saveKey(k)},500)});
+    el.addEventListener('blur',function(){if(el.isContentEditable){clearTimeout(saveTimers[k]);saveKey(k)}});
+    el.addEventListener('paste',function(e){e.preventDefault();document.execCommand('insertText',false,(e.clipboardData||window.clipboardData).getData('text'))});
+    el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();document.execCommand('insertLineBreak')}});
+  });
+
+  var editBtn=document.getElementById('edit');
+  editBtn.addEventListener('click',function(){
+    var on=!document.body.classList.contains('editing');
+    document.body.classList.toggle('editing',on);
+    editBtn.setAttribute('aria-pressed',on?'true':'false'); editBtn.textContent=on?'خلّصت التعديل':'تعديل';
+    Object.keys(els).forEach(function(k){if(on)els[k].setAttribute('contenteditable','true');else els[k].removeAttribute('contenteditable')});
+  });
+  var onlyBtn=document.getElementById('only');
+  function setOnly(on){document.body.classList.toggle('only-spoken',on);onlyBtn.setAttribute('aria-pressed',on?'true':'false');onlyBtn.textContent=on?'إظهار اللقطات':'الكلام بس'}
+  try{setOnly(localStorage.getItem(OKEY)==='1')}catch(e){setOnly(false)}
+  onlyBtn.addEventListener('click',function(){var on=!document.body.classList.contains('only-spoken');setOnly(on);try{localStorage.setItem(OKEY,on?'1':'0')}catch(e){}});
+
+  document.getElementById('resetAll').addEventListener('click',function(){
+    if(!Object.keys(state.edits).length) return;
+    if(!confirm('هترجع كل النصوص لأصلها. الاختيارات والحالات مش هتتمسح. متأكد؟')) return;
+    Object.keys(state.edits).forEach(function(k){if(els[k]){els[k].innerHTML=orig[k];changed['e:'+k]=1;syncTitle(k)}});
+    state.edits={}; Object.keys(els).forEach(mark); persist();
+  });
+
+  (async function(){
+    try{
+      if(!window.claude||typeof window.claude.use!=='function') return;
+      var db=await window.claude.use('db'); if(!db) return;
+      var user=await window.claude.use('user'); if(!user) return;
+      var id=await user.id(); if(!id) return;
+      var ref=db.doc('data/users/'+id+'/reels-state');
+      var snap=await ref.get();
+      if(snap.exists){
+        var r=snap.data()||{};
+        ['edits','chosen','status'].forEach(function(f){
+          var pre=f==='edits'?'e:':f==='chosen'?'c:':'s:';
+          var remote=r[f]||{}, local=state[f]||{}, out={};
+          Object.keys(remote).forEach(function(k){if(!changed[pre+k])out[k]=remote[k]});
+          Object.keys(local).forEach(function(k){if(changed[pre+k])out[k]=local[k]});
+          state[f]=out;
+        });
+        Object.keys(els).forEach(function(k){els[k].innerHTML=orig[k];syncTitle(k)});
+        applyEdits(); Object.keys(els).forEach(mark); renderAll();
+        try{localStorage.setItem(SKEY,JSON.stringify(state))}catch(e){}
+        dbRef=ref; if(Object.keys(changed).length) persist();
+      }else{
+        dbRef=ref;
+        if(Object.keys(state.edits).length||Object.keys(state.chosen).length||Object.keys(state.status).length) persist();
+      }
+    }catch(e){}
+  })();
+})();
+</script>
+</body>
+</html>
